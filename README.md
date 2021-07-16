@@ -1,3 +1,7 @@
-# reifenmodell
+# Reifenmodell
 
-This project contains a server side app and a client side app.
+This project contains a server side app.
+
+# ReifenmodellApp
+
+This project contains a client side app.
