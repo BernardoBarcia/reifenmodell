@@ -1,0 +1,50 @@
+<div *ngIf="!loggedIn">
+  <form #loginForm="ngForm" (ngSubmit)="sendLogin(loginForm)">
+    <div class="login row">
+      <div class="col-4">
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Benutzer"
+          autocorrect="off"
+          class="form-control"
+          ngModel
+          required
+        />
+      </div>
+      <div class="col-4">
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Passwort"
+          class="form-control"
+          ngModel
+          required
+        />
+      </div>
+
+      <div class="col-2">
+        <button
+          type="submit"
+          class="btn btn-outline-primary me-2 form-control"
+          id="sendLogin"
+        >
+          Login
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="loggedIn">
+  <button
+    type="button"
+    (click)="sendLogout()"
+    class="btn btn-outline-primary form-control"
+    id="sendLogout"
+  >
+    Logout
+  </button>
+</div>

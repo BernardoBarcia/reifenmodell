@@ -1,0 +1,492 @@
+<div *ngIf="loggedin" class="container-sm" id="reifen-container">
+  <div class="row my-2 align-items-center">
+    <button
+      (click)="onOpenModal(undefined, 'add')"
+      type="button"
+      class="btn btn-dark btn-lg col col-md-4"
+      data-bs-toggle="modal"
+      data-bs-target="#addReifenModell"
+    >
+      New Reifenmodell
+    </button>
+    <div class="dropdown col">
+      <button
+        class="btn btn-secondary btn-lg dropdown-toggle"
+        type="button"
+        id="dropdownMenuButton1"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        Sort Reifenmodellen
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <li>
+          <a class="dropdown-item" (click)="sortReifen('breite', true, $event)"
+            >Sort nach Breite &uarr;</a
+          >
+        </li>
+        <li>
+          <a class="dropdown-item" (click)="sortReifen('breite', false, $event)"
+            >Sort nach Breite <span>&darr;</span></a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            (click)="sortReifen('hoeheZuBreiteVerhaeltnis', true, $event)"
+            >Sort nach Verhältnis &uarr;</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            (click)="sortReifen('hoeheZuBreiteVerhaeltnis', false, $event)"
+            >Sort nach Verhältnis &darr;</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            (click)="sortReifen('reifenbauart', true, $event)"
+            >Sort nach Bauart &uarr;</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            (click)="sortReifen('reifenbauart', false, $event)"
+            >Sort nach Bauart &darr;</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            (click)="sortReifen('durchmesser', true, $event)"
+            >Sort nach Durchmesser &uarr;</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            (click)="sortReifen('durchmesser', false, $event)"
+            >Sort nach Durchmesser &darr;</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row bg-primary rounded pt-2 px-1">
+    <div
+      *ngFor="let reifen of reifenmodellen"
+      class="col col-xl-3 my-2 d-flex align-items-center justify-content-center"
+    >
+      <div class="card bg-light border-secondary" style="width: 20rem">
+        <img
+          class="card-img-top"
+          src="{{ reifen?.imageURL }}"
+          alt="Reifen Bild"
+        />
+        <div class="card-body">
+          <h5 class="card-title">
+            Modell {{ reifen?.breite }}/{{
+              reifen?.hoeheZuBreiteVerhaeltnis
+            }}/{{ reifen?.reifenbauart }}{{ reifen?.durchmesser }}
+          </h5>
+          <!-- <p class="card-text"></p> -->
+          <ul class="list-group list-group-flush bg-light">
+            <li class="list-group-item">
+              Reifenbreite: {{ reifen.breite }} mm
+            </li>
+            <li class="list-group-item">
+              Verhältnis (Höhe zu Breite in Prozent):
+              {{ reifen?.hoeheZuBreiteVerhaeltnis }}%
+            </li>
+            <li class="list-group-item">Bauart: {{ reifen?.reifenbauart }}</li>
+            <li class="list-group-item">
+              Durchmesser: {{ reifen?.durchmesser }} Zoll
+            </li>
+          </ul>
+          <div class="float-end btn-group my-1">
+            <a
+              (click)="onOpenModal(reifen, 'edit')"
+              class="btn btn-primary tooltips"
+              title="Edit"
+              data-bs-toggle="modal"
+              data-bs-target="#editReifenModell"
+              ><i class="fa fa-pencil"></i
+            ></a>
+            <a
+              (click)="onOpenModal(reifen, 'delete')"
+              class="btn btn-secondary tooltips"
+              title="Delete"
+              data-bs-toggle="modal"
+              data-bs-target="#deleteReifenModell"
+              ><i class="fa fa-times"></i
+            ></a>
+          </div>
+          <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="!loggedin" class="container-sm align-items-center">
+  <h1 class="py-4 text-white bg-primary text-center font-weight-bold">
+    Log In to start!
+  </h1>
+</div>
+
+<!-- Add Reifenmodell Modal -->
+<div
+  class="modal fade"
+  id="addReifenModell"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">New Reifenmodell</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <form #addForm="ngForm" (ngSubmit)="onAddReifenmodell(addForm)">
+          <div class="form-group row align-items-center pb-2">
+            <div class="col-auto">
+              <label for="breite" class="col-form-label"
+                >Reifenbreite (mm)</label
+              >
+            </div>
+            <div class="col-auto">
+              <input
+                type="number"
+                min="1"
+                name="breite"
+                id="breite"
+                class="form-control"
+                placeholder="30"
+                ngModel
+                required
+                #breite="ngModel"
+              />
+            </div>
+            <div
+              *ngIf="breite.invalid && (breite.dirty || breite.touched)"
+              class="alert text-danger"
+            >
+              <div *ngIf="breite.errors?.required">Breite ist gebraucht</div>
+              <div *ngIf="breite.errors?.min">
+                Breite muss mindestens 1 mm sein
+              </div>
+            </div>
+          </div>
+          <div class="form-group row align-items-center pb-2">
+            <div class="col-auto">
+              <label for="hoeheZuBreiteVerhaeltnis" class="col-form-label"
+                >Verhältnis Höhe zu Breite (%)</label
+              >
+            </div>
+            <div class="col-auto">
+              <input
+                type="number"
+                min="1"
+                max="99"
+                name="hoeheZuBreiteVerhaeltnis"
+                id="hoeheZuBreiteVerhaeltnis"
+                class="form-control"
+                placeholder="50"
+                ngModel
+                required
+              />
+            </div>
+            <div></div>
+          </div>
+          <div class="form-group row align-items-center pb-2">
+            <div class="col-auto">
+              <label for="reifenbauart" class="col-form-label"
+                >Reifenbauart</label
+              >
+            </div>
+            <div class="col-auto">
+              <input
+                type="text"
+                minlength="1"
+                maxlength="1"
+                name="reifenbauart"
+                id="reifenbauart"
+                class="form-control"
+                placeholder="R"
+                ngModel
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group row align-items-center pb-2">
+            <div class="col-auto">
+              <label for="durchmesser" class="col-form-label"
+                >Durchmesser (Zoll)</label
+              >
+            </div>
+            <div class="col-auto">
+              <input
+                type="number"
+                min="1"
+                name="durchmesser"
+                id="durchmesser"
+                class="form-control"
+                placeholder="50"
+                ngModel
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group pb-3">
+            <label for="phone">Bild URL</label>
+            <input
+              type="text"
+              ngModel
+              class="form-control"
+              name="imageURL"
+              id="imageURL"
+              placeholder="http://image-link.com"
+              required
+            />
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              id="closeAddReifen"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Abbrechen
+            </button>
+            <button
+              [disabled]="addForm.invalid"
+              type="submit"
+              class="btn btn-primary"
+            >
+              Reifenmodell erzeugen
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div
+  class="modal fade"
+  id="deleteReifenModell"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="deleteModelLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModelLabel">Reifenmodell löschen</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>Möchten Sie das Reifenmodell löschen?</p>
+        <div *ngIf="deleteReifen !== undefined">
+          <img
+            class="img-thumbnail"
+            width="60%"
+            src="{{ deleteReifen?.imageURL }}"
+            alt="Bild"
+          />
+          <br />
+          <div class="py-2">
+            <b>
+              Modell {{ deleteReifen?.breite }}/{{
+                deleteReifen?.hoeheZuBreiteVerhaeltnis
+              }}/{{ deleteReifen?.reifenbauart }}{{ deleteReifen?.durchmesser }}
+            </b>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            id="closeDeleteReifen"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Nein
+          </button>
+          <button
+            (click)="onDeleteReifenmodell(deleteReifen?.id)"
+            class="btn btn-danger"
+            data-dismiss="modal"
+          >
+            Ja
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Reifenmodell Modal -->
+<div
+  class="modal fade"
+  id="editReifenModell"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Edit Reifenmodell</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <form #editForm="ngForm">
+          <input
+            type="hidden"
+            name="id"
+            ngModel="{{ updateReifen?.id }}"
+            id="id"
+            class="form-control"
+          />
+          <div class="form-group row align-items-center pb-2">
+            <div class="col-auto">
+              <label for="breite" class="col-form-label"
+                >Reifenbreite (mm)</label
+              >
+            </div>
+            <div class="col-auto">
+              <input
+                type="number"
+                min="1"
+                name="breite"
+                id="breiteUpdate"
+                class="form-control"
+                placeholder="30"
+                ngModel="{{ updateReifen?.breite }}"
+                required
+                #breite="ngModel"
+              />
+            </div>
+          </div>
+          <div class="form-group row align-items-center pb-2">
+            <div class="col-auto">
+              <label for="hoeheZuBreiteVerhaeltnis" class="col-form-label"
+                >Verhältnis Höhe zu Breite (%)</label
+              >
+            </div>
+            <div class="col-auto">
+              <input
+                type="number"
+                min="1"
+                max="99"
+                name="hoeheZuBreiteVerhaeltnis"
+                id="hoeheZuBreiteVerhaeltnisUpdate"
+                class="form-control"
+                placeholder="50"
+                ngModel="{{ updateReifen?.hoeheZuBreiteVerhaeltnis }}"
+                required
+              />
+            </div>
+            <div></div>
+          </div>
+          <div class="form-group row align-items-center pb-2">
+            <div class="col-auto">
+              <label for="reifenbauart" class="col-form-label"
+                >Reifenbauart</label
+              >
+            </div>
+            <div class="col-auto">
+              <input
+                type="text"
+                name="reifenbauart"
+                id="reifenbauartUpdate"
+                class="form-control"
+                placeholder="R"
+                ngModel="{{ updateReifen?.reifenbauart }}"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group row align-items-center pb-2">
+            <div class="col-auto">
+              <label for="durchmesser" class="col-form-label"
+                >Durchmesser (Zoll)</label
+              >
+            </div>
+            <div class="col-auto">
+              <input
+                type="number"
+                min="1"
+                name="durchmesser"
+                id="durchmesserUpdate"
+                class="form-control"
+                placeholder="50"
+                ngModel="{{ updateReifen?.durchmesser }}"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group pb-3">
+            <label for="phone">Bild URL</label>
+            <input
+              type="text"
+              ngModel="{{ updateReifen?.imageURL }}"
+              class="form-control"
+              name="imageURL"
+              id="imageURLUpdate"
+              placeholder="http://image-link.com"
+              required
+            />
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              id="closeUpdateReifen"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Abbrechen
+            </button>
+            <button
+              [disabled]="editForm.invalid"
+              (click)="onUpdateReifenmodell(editForm.value)"
+              type="submit"
+              class="btn btn-primary"
+            >
+              Reifenmodell aktualisieren
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+{
+    "breite" : 90,
+    "hoeheZuBreiteVerhaeltnis" : 50,
+    "reifenbauart" : "R",
+    "durchmesser" : 32,
+    "imageURL" : "https://fakelink.com/123"
+}
+{
+    "breite" : 80,
+    "hoeheZuBreiteVerhaeltnis" : 40,
+    "reifenbauart" : "B",
+    "durchmesser" : 50,
+    "imageURL" : "https://fakelink.com/456"
+}
+{
+    "breite" : 120,
+    "hoeheZuBreiteVerhaeltnis" : 70,
+    "reifenbauart" : "D",
+    "durchmesser" : 20,
+    "imageURL" : "https://fakelink.com/789"
+}
+{
+    "breite" : 90,
+    "hoeheZuBreiteVerhaeltnis" : 50,
+    "reifenbauart" : "R",
+    "durchmesser" : 32,
+    "imageURL" : "https://fakelink.com/123"
+}

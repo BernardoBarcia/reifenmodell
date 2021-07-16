@@ -1,0 +1,1 @@
+https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.5.2.RELEASE&packaging=jar&jvmVersion=1.8&groupId=net.reifenapp&artifactId=reifenmodelle&name=reifenmodelle&description=Reifenmodelle%20App&packageName=net.reifenapp.reifenmodelle&dependencies=web,data-jpa,security,mysql
