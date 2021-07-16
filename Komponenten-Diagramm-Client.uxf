@@ -83,7 +83,7 @@ layer=2</panel_attributes>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=[]-()
-m2=JwtRequest</panel_attributes>
+m2=Authentication</panel_attributes>
     <additional_attributes>200.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -157,7 +157,7 @@ m1=Reifenmodell\nData</panel_attributes>
       <h>64</h>
     </coordinates>
     <panel_attributes>lt=[]-(
-m2=JwtResponse</panel_attributes>
+m2=Authentication</panel_attributes>
     <additional_attributes>240.0;60.0;240.0;20.0;20.0;20.0</additional_attributes>
   </element>
   <element>

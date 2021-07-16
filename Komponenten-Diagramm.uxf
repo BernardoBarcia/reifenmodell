@@ -30,7 +30,7 @@ UserDetailsService</panel_attributes>
     <coordinates>
       <x>140</x>
       <y>301</y>
-      <w>539</w>
+      <w>546</w>
       <h>301</h>
     </coordinates>
     <panel_attributes>symbol=component
@@ -234,7 +234,7 @@ WebSecurityConfig</panel_attributes>
     <coordinates>
       <x>532</x>
       <y>476</y>
-      <w>133</w>
+      <w>119</w>
       <h>42</h>
     </coordinates>
     <panel_attributes>symbol=component
@@ -268,7 +268,7 @@ UserService</panel_attributes>
     <coordinates>
       <x>532</x>
       <y>378</y>
-      <w>133</w>
+      <w>119</w>
       <h>56</h>
     </coordinates>
     <panel_attributes>symbol=component
@@ -286,5 +286,55 @@ UserController</panel_attributes>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 </panel_attributes>
     <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>644</x>
+      <y>378</y>
+      <w>147</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=[]-(
+m2=Authentication</panel_attributes>
+    <additional_attributes>10.0;20.0;180.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>644</x>
+      <y>413</y>
+      <w>140</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=[]-()
+m2=Authentication</panel_attributes>
+    <additional_attributes>10.0;10.0;180.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>679</x>
+      <y>413</y>
+      <w>21</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>lt=[]-
+bg=white
+layer=2</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>679</x>
+      <y>385</y>
+      <w>28</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>lt=[]-
+bg=white
+layer=2</panel_attributes>
+    <additional_attributes>10.0;10.0;20.0;10.0</additional_attributes>
   </element>
 </diagram>
