@@ -1,9 +1,10 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { tap, shareReplay } from 'rxjs/operators';
 import { User } from '../model/user';
+import { UserRoles } from '../model/userRoles';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,8 @@ export class AuthService {
 
   loggedIn$: Observable<boolean>;
   private loggedInSubject = new Subject<boolean>();
+  private headers: HttpHeaders | undefined;
+  private userInfo: UserRoles | undefined;
 
   constructor(private http: HttpClient) {
     this.loggedIn$ = this.loggedInSubject.asObservable();
@@ -23,15 +26,34 @@ export class AuthService {
   }
 
   login(user: User): Observable<any> {
-    console.log(user.username, user.password);
-    return this.http.post(`${this.apiServerUrl}/login`, user);
+    this.headers = new HttpHeaders({
+      Authorization: 'Basic ' + btoa(user.username + ':' + user.password),
+    });
+    return this.http.post<UserRoles>(
+      `${this.apiServerUrl}/authenticate`,
+      user,
+      {
+        headers: this.headers,
+      }
+    );
   }
 
-  private setSession(authResult: any) {
-    localStorage.setItem('user_token', authResult);
+  getAuth(): HttpHeaders | undefined {
+    if (this.loggedIn$) return this.headers;
+    return undefined;
   }
 
   logout() {
-    localStorage.removeItem('user_token');
+    this.headers = undefined;
+    this.setLogin(false);
+    this.userInfo = undefined;
+  }
+
+  setUserAndRoles(userInfo: UserRoles) {
+    this.userInfo = userInfo;
+  }
+
+  getUserAndRoles(): UserRoles | undefined {
+    return this.userInfo;
   }
 }

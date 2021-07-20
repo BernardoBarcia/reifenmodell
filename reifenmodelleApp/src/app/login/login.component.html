@@ -39,6 +39,7 @@
 </div>
 
 <div *ngIf="loggedIn">
+  <p>Welcome, {{ name }}</p>
   <button
     type="button"
     (click)="sendLogout()"

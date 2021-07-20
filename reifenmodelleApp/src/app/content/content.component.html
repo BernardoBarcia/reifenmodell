@@ -106,7 +106,7 @@
               Durchmesser: {{ reifen?.durchmesser }} Zoll
             </li>
           </ul>
-          <div class="float-end btn-group my-1">
+          <div class="float-end btn-group my-1" *ngIf="checkAdminRole()">
             <a
               (click)="onOpenModal(reifen, 'edit')"
               class="btn btn-primary tooltips"

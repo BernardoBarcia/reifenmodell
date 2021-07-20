@@ -35,8 +35,12 @@ export class ContentComponent implements OnInit {
 
   ngOnInit() {
     // Code to do on init
-    // this.getAllReifenmodellen();
-    // this.sampleInfo();
+  }
+
+  public checkAdminRole() {
+    return this.loggingService
+      .getUserAndRoles()
+      ?.roles.some((e) => e === 'admin');
   }
 
   public getAllReifenmodellen(): void {

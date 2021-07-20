@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { UserRoles } from '../model/userRoles';
 import { AuthService } from '../service/auth.service';
 
 @Component({
@@ -10,6 +11,7 @@ import { AuthService } from '../service/auth.service';
 })
 export class LoginComponent implements OnInit {
   public loggedIn: boolean = false;
+  public name: String = '';
 
   constructor(private authenticationService: AuthService) {
     this.authenticationService.setLogin(false);
@@ -21,18 +23,21 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
 
   public sendLogin(loginForm: NgForm) {
-    // console.log(loginForm.value);
     this.authenticationService.login(loginForm.value).subscribe(
-      (response) => {
+      (response: UserRoles) => {
+        // console.log(response);
         this.authenticationService.setLogin(true);
+        this.authenticationService.setUserAndRoles(response);
+        this.name = response.username;
+        loginForm.reset();
       },
-      (error: HttpErrorResponse) => alert(error.message)
+      (error: HttpErrorResponse) => alert(error.message + '\n Could not log in')
     );
     // this.authenticationService.setLogin(true);
   }
 
   public sendLogout() {
+    this.name = '';
     this.authenticationService.logout();
-    this.authenticationService.setLogin(false);
   }
 }
