@@ -10,9 +10,9 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
-//
+// For testing
 //exclude = {SecurityAutoConfiguration.class }
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
+@SpringBootApplication()
 public class ReifenmodelleApplication {
 
 	public static void main(String[] args) {

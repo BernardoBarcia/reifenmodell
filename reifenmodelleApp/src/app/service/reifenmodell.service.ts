@@ -19,7 +19,7 @@ export class ReifenmodellService {
   public getAllReifenmodellen(): Observable<Reifenmodell[]> {
     return this.http.get<Reifenmodell[]>(
       `${this.apiServerUrl}/reifenmodell/all`,
-      { ...this.authenticationService.getAuth() }
+      { headers: this.authenticationService.getAuth() }
     );
   }
 
@@ -27,7 +27,7 @@ export class ReifenmodellService {
     return this.http.post<Reifenmodell>(
       `${this.apiServerUrl}/reifenmodell/add`,
       reifenmodell,
-      { ...this.authenticationService.getAuth() }
+      { headers: this.authenticationService.getAuth() }
     );
   }
 
@@ -37,7 +37,7 @@ export class ReifenmodellService {
     return this.http.put<Reifenmodell>(
       `${this.apiServerUrl}/reifenmodell/update`,
       reifenmodell,
-      { ...this.authenticationService.getAuth() }
+      { headers: this.authenticationService.getAuth() }
     );
   }
 
@@ -46,7 +46,7 @@ export class ReifenmodellService {
   ): Observable<void> {
     return this.http.delete<void>(
       `${this.apiServerUrl}/reifenmodell/delete/${reifenmodellId}`,
-      { ...this.authenticationService.getAuth() }
+      { headers: this.authenticationService.getAuth() }
     );
   }
 }

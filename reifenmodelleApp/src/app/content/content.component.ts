@@ -55,7 +55,7 @@ export class ContentComponent implements OnInit {
     document.getElementById('closeAddReifen')?.click();
     this.reifenmodellService.addReifenmodell(addForm.value).subscribe(
       (response: Reifenmodell) => {
-        console.log(response);
+        // console.log(response);
         this.getAllReifenmodellen();
       },
       (error: HttpErrorResponse) => alert(error.message)
@@ -68,7 +68,7 @@ export class ContentComponent implements OnInit {
     document.getElementById('closeUpdateReifen')?.click();
     this.reifenmodellService.updateReifenmodell(reifenmodell).subscribe(
       (response: Reifenmodell) => {
-        console.log(response);
+        // console.log(response);
         this.getAllReifenmodellen();
       },
       (error: HttpErrorResponse) => alert(error.message)
