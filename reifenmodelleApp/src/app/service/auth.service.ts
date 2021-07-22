@@ -29,13 +29,10 @@ export class AuthService {
     this.headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(user.username + ':' + user.password),
     });
-    return this.http.post<UserRoles>(
-      `${this.apiServerUrl}/authenticate`,
-      user,
-      {
-        headers: this.headers,
-      }
-    );
+    // Used to be post with "user" as the body
+    return this.http.get<UserRoles>(`${this.apiServerUrl}/authenticate`, {
+      headers: this.headers,
+    });
   }
 
   getAuth(): HttpHeaders | undefined {

@@ -1,6 +1,7 @@
 package net.reifenapp.reifenmodelle.resource;
 
 import net.reifenapp.reifenmodelle.model.Reifenmodell;
+import net.reifenapp.reifenmodelle.service.SecurityService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,9 +16,11 @@ import java.util.List;
 @RequestMapping("/reifenmodell")
 public class ReifenmodellController {
     private final ReifenmodellService reifenmodellService;
+    private final SecurityService securityService;
 
-    public ReifenmodellController(ReifenmodellService ReifenmodellService) {
+    public ReifenmodellController(ReifenmodellService ReifenmodellService, SecurityService securityService) {
         this.reifenmodellService = ReifenmodellService;
+        this.securityService = securityService;
     }
 
     @GetMapping("/all")
@@ -34,7 +37,7 @@ public class ReifenmodellController {
 
     @PostMapping("/add")
     public ResponseEntity<Reifenmodell> addReifenmodell(@RequestBody Reifenmodell Reifenmodell) {
-        if(checkAuthorization()) {
+        if(securityService.checkAdminAuthorization()) {
             Reifenmodell addReifenmodell = reifenmodellService.addReifenmodell(Reifenmodell);
             return new ResponseEntity<>(addReifenmodell, HttpStatus.CREATED);
         }
@@ -43,7 +46,7 @@ public class ReifenmodellController {
 
     @PutMapping("/update")
     public ResponseEntity<Reifenmodell> updateReifenmodell(@RequestBody Reifenmodell Reifenmodell) {
-        if(checkAuthorization()) {
+        if(securityService.checkAdminAuthorization()) {
             Reifenmodell reifenmodell = reifenmodellService.updateReifenmodell(Reifenmodell);
             return new ResponseEntity<>(reifenmodell, HttpStatus.OK);
         }
@@ -52,16 +55,11 @@ public class ReifenmodellController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> updateReifenmodell(@PathVariable("id") Long id) {
-        if(checkAuthorization()) {
+        if(securityService.checkAdminAuthorization()) {
             reifenmodellService.deleteReifenmodell(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-    //Better if defined in another class (a Service)
-    private boolean checkAuthorization() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getAuthorities().contains(new SimpleGrantedAuthority("admin"));
-    }
 }

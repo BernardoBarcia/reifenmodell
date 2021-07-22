@@ -2,6 +2,7 @@ package net.reifenapp.reifenmodelle.resource;
 
 import net.reifenapp.reifenmodelle.model.User;
 import net.reifenapp.reifenmodelle.model.UserRoles;
+import net.reifenapp.reifenmodelle.service.SecurityService;
 import net.reifenapp.reifenmodelle.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,12 +20,22 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
+    private SecurityService securityService;
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @GetMapping("/authenticate")
+    public ResponseEntity<UserRoles> loginUser() {
+        UserRoles authorities = securityService.getUserRoles();
+        if(authorities != null) return new ResponseEntity<>( authorities, HttpStatus.OK);
+        return null;
+    }
+
+    //Old Method
+/*
     @PostMapping("/authenticate")
     public ResponseEntity<UserRoles> loginUser(@RequestBody User user) {
-        // Better with
-        //  Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // Implemented differently
         User userTmp = userService.findByUsername(user.getUsername());
         if( user.getUsername().matches(userTmp.getUsername()) &&
                 bCryptPasswordEncoder.matches(user.getPassword(), userTmp.getPassword())) {
@@ -34,4 +45,5 @@ public class UserController {
         }
         return null;
     }
+*/
 }
